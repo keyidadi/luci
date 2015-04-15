@@ -36,13 +36,15 @@ function index()
 	end
 
 	local rpc = node("rpc")
-	rpc.sysauth = "root"
+	rpc.sysauth = "admin"
 	rpc.sysauth_authenticator = authenticator
 	rpc.notemplate = true
 
 	entry({"rpc", "uci"}, call("rpc_uci"))
+	entry({"rpc", "ucig"}, call("rpc_ucig")).sysauth = false
 	entry({"rpc", "fs"}, call("rpc_fs"))
 	entry({"rpc", "sys"}, call("rpc_sys"))
+	entry({"rpc", "stats"}, call("rpc_stats")).sysauth = false
 	entry({"rpc", "ipkg"}, call("rpc_ipkg"))
 	entry({"rpc", "auth"}, call("rpc_auth")).sysauth = false
 end
@@ -101,6 +103,20 @@ function rpc_uci()
 	ltn12.pump.all(jsonrpc.handle(uci, http.source()), http.write)
 end
 
+function rpc_ucig()
+	if not pcall(require, "luci.model.uci") then
+		luci.http.status(404, "Not Found")
+		return nil
+	end
+	local uci     = require "luci.jsonrpcbind.ucig"
+	local jsonrpc = require "luci.jsonrpc"
+	local http    = require "luci.http"
+	local ltn12   = require "luci.ltn12"
+
+	http.prepare_content("application/json")
+	ltn12.pump.all(jsonrpc.handle(uci, http.source()), http.write)
+end
+
 function rpc_fs()
 	local util    = require "luci.util"
 	local io      = require "io"
@@ -149,6 +165,16 @@ function rpc_sys()
 
 	http.prepare_content("application/json")
 	ltn12.pump.all(jsonrpc.handle(sys, http.source()), http.write)
+end
+
+function rpc_stats()
+	local stats     = require "luci.jsonrpcbind.stats"
+	local jsonrpc = require "luci.jsonrpc"
+	local http    = require "luci.http"
+	local ltn12   = require "luci.ltn12"
+
+	http.prepare_content("application/json")
+	ltn12.pump.all(jsonrpc.handle(stats, http.source()), http.write)
 end
 
 function rpc_ipkg()
