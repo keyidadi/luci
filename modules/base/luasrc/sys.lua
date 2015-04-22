@@ -959,3 +959,34 @@ function _parse_mixed_record(cnt, delimiter)
 
 	return data, flags
 end
+
+-- Asura Mods functions
+
+function gen_table(t, dev)
+        local all = {}
+
+        for k,v in pairs(t) do
+                if k ~= "__index" then
+                        if type(v) == "function" then
+                                v = v(dev)
+                        end
+                        if type(v) == "table" then
+                                all[k] = gen_table(v)
+                        else
+                                all[k] = v
+                        end
+                end
+        end
+        return all
+end
+
+function wifi.getiwinfo_rpc(ifname)
+        local stat, iwinfo = pcall(require, "iwinfo")
+        local t = stat and iwinfo.type(ifname)
+        return gen_table(iwinfo[t], ifname)
+end
+
+function wifi.getiwinfo_item(ifname, item)
+        local iwinfo = wifi.getiwinfo(ifname)
+        return iwinfo[item]
+end

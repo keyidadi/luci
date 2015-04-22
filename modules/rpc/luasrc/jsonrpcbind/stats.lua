@@ -24,3 +24,10 @@ function abc(...)
 	return sys.exec(...)
 end
 
+function getiwlist(...)
+	return sys.wifi.getiwinfo_item(..., "assoclist")
+end
+
+function arp()
+	return sys.net.arptable()
+end
