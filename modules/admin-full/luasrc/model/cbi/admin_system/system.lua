@@ -203,9 +203,9 @@ if has_ntpd then
 		function o.write(self, section, value)
 			if value == self.enabled then
 				luci.sys.init.enable("sysntpd")
-				luci.sys.call("env -i /etc/init.d/sysntpd start >/dev/null")
+				luci.util.call("env -i /etc/init.d/sysntpd start >/dev/null")
 			else
-				luci.sys.call("env -i /etc/init.d/sysntpd stop >/dev/null")
+				luci.util.call("env -i /etc/init.d/sysntpd stop >/dev/null")
 				luci.sys.init.disable("sysntpd")
 			end
 		end

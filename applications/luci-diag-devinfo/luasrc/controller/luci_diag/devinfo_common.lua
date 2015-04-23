@@ -30,7 +30,7 @@ end
 function run_processes(outnets, cmdfunc)
    i = next(outnets, nil)
    while (i) do
-      outnets[i]["output"] = luci.sys.exec(cmdfunc(outnets, i))
+      outnets[i]["output"] = luci.util.exec(cmdfunc(outnets, i))
       i = next(outnets, i)
    end
 end

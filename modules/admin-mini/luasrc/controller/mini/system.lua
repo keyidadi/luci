@@ -89,7 +89,7 @@ function action_upgrade()
 	end
 	
 	local function image_checksum()
-		return (luci.sys.exec("md5sum %q" % tmpfile):match("^([^%s]+)"))
+		return (luci.sys.md5sum(tmpfile):match("^([^%s]+)"))
 	end
 	
 	local function storage_size()

@@ -20,10 +20,6 @@ local table = require "table"
 module "luci.jsonrpcbind.stats"
 _M, _PACKAGE, _NAME = nil, nil, nil
 
-function abc(...)
-	return sys.exec(...)
-end
-
 function getiwlist(...)
 	return sys.wifi.getiwinfo_item(..., "assoclist")
 end

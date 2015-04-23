@@ -104,12 +104,12 @@ uci:foreach("wireless", "wifi-device", function(section)
 	-- Channel selection
 
 	if hwtype == "atheros" then
-		local cc = util.trim(sys.exec("grep -i '" .. syscc .. "' /lib/wifi/cc_translate.txt |cut -d ' ' -f 2")) or 0
-		sys.exec('"echo " .. cc .. " > /proc/sys/dev/" .. device .. "/countrycode"')
+		local cc = util.trim(util.exec("grep -i '" .. syscc .. "' /lib/wifi/cc_translate.txt |cut -d ' ' -f 2")) or 0
+		util.exec('"echo " .. cc .. " > /proc/sys/dev/" .. device .. "/countrycode"')
 	elseif hwtype == "mac80211" then
-		sys.exec("iw reg set " .. syscc)
+		util.exec("iw reg set " .. syscc)
 	elseif hwtype == "broadcom" then
-		sys.exec ("wlc country " .. syscc)
+		util.exec ("wlc country " .. syscc)
 	end
 
 	local chan = n:taboption(device, ListValue, device .. "_channel", translate("Channel"),
@@ -144,7 +144,7 @@ uci:foreach("wireless", "wifi-device", function(section)
 
 	-- Enable VAP
 	local supports_vap = 0
-	if sys.call("/usr/bin/meshwizard/helpers/supports_vap.sh " .. device .. " " .. hwtype) == 0 then
+	if util.call("/usr/bin/meshwizard/helpers/supports_vap.sh " .. device .. " " .. hwtype) == 0 then
 		supports_vap = 1
 	end
 	if supports_vap == 1 then

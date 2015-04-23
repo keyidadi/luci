@@ -36,9 +36,9 @@ end
 function o.write(self, section, value)
 	if value == "1" then
 		luci.sys.init.enable("minidlna")
-		luci.sys.call("/etc/init.d/minidlna start >/dev/null")
+		luci.util.call("/etc/init.d/minidlna start >/dev/null")
 	else
-		luci.sys.call("/etc/init.d/minidlna stop >/dev/null")
+		luci.util.call("/etc/init.d/minidlna stop >/dev/null")
 		luci.sys.init.disable("minidlna")
 	end
 
