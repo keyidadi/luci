@@ -990,6 +990,7 @@ function wifi.getiwinfo_item(ifname, item)
         local iwinfo = wifi.getiwinfo(ifname)
         return iwinfo[item]
 end
+<<<<<<< .mine
 
 function md5sum(image_tmp)
 	return luci.util.exec("md5sum %q" % image_tmp)
@@ -1003,7 +1004,28 @@ function refactory()
 	luci.util.exec("mtd -r erase rootfs_data; reboot -f")
 end
 
+=======
+
+function md5sum(image_tmp)
+	return luci.util.exec("md5sum %q" % image_tmp)
+end
+
+function halt()
+	luci.util.exec("halt")
+end
+
+function refactory()
+	luci.util.exec("mtd -r erase rootfs_data; reboot -f")
+end
+
+>>>>>>> .theirs
 function upgrade(keep, image_tmp)
+<<<<<<< .mine
 	local keep = keep and "" or "-n"
 	luci.util.exec("killall dropbear uhttpd; sleep 1; /sbin/sysupgrade %s %q; reboot -f" %{ keep, image_tmp })
 end	
+=======
+	local keep = keep and "" or "-n"
+	luci.util.exec("killall dropbear uhttpd; sleep 1; /sbin/sysupgrade %s %q; reboot -f" %{ keep, image_tmp })
+end	
+>>>>>>> .theirs
