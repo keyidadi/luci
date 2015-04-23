@@ -7,7 +7,7 @@ PKG_RELEASE:=1
 
 PKG_BUILD_PARALLEL:=0
 
-PKG_VERSION:=0.12+$(shell $(LUCI_TOPDIR)/build/mkrevision.sh 2>/dev/null || echo unknown)
+PKG_VERSION:=asuliu-mod+$(shell $(LUCI_TOPDIR)/build/mkrevision.sh 2>/dev/null || echo unknown)
 
 PKG_BUILD_DEPENDS:=$(if $(STAGING_DIR_ROOT),lua/host) iwinfo
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
@@ -48,7 +48,7 @@ define Package/luci-base/install
 	$(PKG_BUILD_DIR)/build/mkversion.sh $(1)/usr/lib/lua/luci/version.lua \
 		"OpenWrt Firmware" \
 		"$(OPENWRTVERSION)" \
-		"luci-0.12" \
+		"luci-asuliu-mod" \
 		"$(PKG_VERSION)"
 endef
 

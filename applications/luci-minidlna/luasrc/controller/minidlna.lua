@@ -33,7 +33,7 @@ function minidlna_status()
 	local port = tonumber(uci:get_first("minidlna", "minidlna", "port"))
 
 	local status = {
-		running = (sys.call("pidof minidlna >/dev/null") == 0),
+		running = (util.call("pidof minidlna >/dev/null") == 0),
 		audio   = 0,
 		video   = 0,
 		image   = 0

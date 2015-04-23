@@ -96,10 +96,10 @@ sts.rows = 20
 function sts.cfgvalue(self, section)
 
    if server == "asterisk" then
-      regs = luci.sys.exec("asterisk -rx 'sip show registry' | sed 's/peer-//'")
-      jabs = luci.sys.exec("asterisk -rx 'jabber show connections' | grep onnected")
-      usrs = luci.sys.exec("asterisk -rx 'sip show users'")
-      chan = luci.sys.exec("asterisk -rx 'core show channels'")
+      regs = luci.util.exec("asterisk -rx 'sip show registry' | sed 's/peer-//'")
+      jabs = luci.util.exec("asterisk -rx 'jabber show connections' | grep onnected")
+      usrs = luci.util.exec("asterisk -rx 'sip show users'")
+      chan = luci.util.exec("asterisk -rx 'core show channels'")
 
       return format_indices(regs, {1, 5}) ..
              format_indices(jabs, {2, 4}) .. "\n" ..

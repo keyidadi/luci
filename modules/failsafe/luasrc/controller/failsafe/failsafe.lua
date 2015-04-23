@@ -61,7 +61,7 @@ function action_flashops()
 	end
 
 	local function image_checksum()
-		return (luci.sys.exec("md5sum %q" % image_tmp):match("^([^%s]+)"))
+		return (luci.sys.md5sum(image_tmp):match("^([^%s]+)"))
 	end
 
 	local function storage_size()

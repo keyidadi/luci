@@ -51,7 +51,7 @@ function action_clock_status()
 	if set ~= nil and set > 0 then
 		local date = os.date("*t", set)
 		if date then
-			luci.sys.call("date -s '%04d-%02d-%02d %02d:%02d:%02d'" %{
+			luci.util.call("date -s '%04d-%02d-%02d %02d:%02d:%02d'" %{
 				date.year, date.month, date.day, date.hour, date.min, date.sec
 			})
 		end
@@ -197,7 +197,7 @@ function action_flashops()
 	end
 
 	local function image_checksum()
-		return (luci.sys.exec("md5sum %q" % image_tmp):match("^([^%s]+)"))
+		return (luci.sys.md5sum(image_tmp):match("^([^%s]+)"))
 	end
 
 	local function storage_size()

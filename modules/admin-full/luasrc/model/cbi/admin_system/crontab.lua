@@ -29,7 +29,7 @@ function f.handle(self, state, data)
 	if state == FORM_VALID then
 		if data.crons then
 			fs.writefile(cronfile, data.crons:gsub("\r\n", "\n"))
-			luci.sys.call("/usr/bin/crontab %q" % cronfile)
+			luci.util.call("/usr/bin/crontab %q" % cronfile)
 		end
 	end
 	return true

@@ -97,9 +97,9 @@ function updown.cfgvalue(self, section)
 end
 function updown.write(self, section, value)
 	if self.option == "stop" then
-		luci.sys.call("/etc/init.d/openvpn down %s" % section)
+		luci.util.call("/etc/init.d/openvpn down %s" % section)
 	else
-		luci.sys.call("/etc/init.d/openvpn up %s" % section)
+		luci.util.call("/etc/init.d/openvpn up %s" % section)
 	end
 end
 

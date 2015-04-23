@@ -32,11 +32,11 @@ end
 
 function e.write(self, section, value)
 	if value == "1" then
-		luci.sys.call("/etc/init.d/miniupnpd enable >/dev/null")
-		luci.sys.call("/etc/init.d/miniupnpd start >/dev/null")
+		luci.util.call("/etc/init.d/miniupnpd enable >/dev/null")
+		luci.util.call("/etc/init.d/miniupnpd start >/dev/null")
 	else
-		luci.sys.call("/etc/init.d/miniupnpd stop >/dev/null")
-		luci.sys.call("/etc/init.d/miniupnpd disable >/dev/null")
+		luci.util.call("/etc/init.d/miniupnpd stop >/dev/null")
+		luci.util.call("/etc/init.d/miniupnpd disable >/dev/null")
 	end
 end
 

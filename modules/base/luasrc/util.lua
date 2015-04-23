@@ -789,3 +789,10 @@ end
 function performResume(err, co, ...)
 	return handleReturnValue(err, co, coroutine.resume(co, ...))
 end
+
+-- Asura Mods functions
+
+-- move sys.call here, prevent rpc calling 
+function call(...)
+	return os.execute(...) / 256
+end

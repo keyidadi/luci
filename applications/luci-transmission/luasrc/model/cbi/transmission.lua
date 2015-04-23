@@ -18,7 +18,7 @@ require("luci.model.ipkg")
 
 local uci = require "luci.model.uci".cursor()
 local trport = uci:get_first("transmission", "transmission", "rpc_port") or 9091
-local running = (luci.sys.call("pidof transmission-daemon > /dev/null") == 0)
+local running = (luci.util.call("pidof transmission-daemon > /dev/null") == 0)
 local webinstalled = luci.model.ipkg.installed("transmission-web") 
 local button = ""
 if running and webinstalled then
@@ -36,7 +36,7 @@ enable.rmempty=false
 config_dir=s:option(Value, "config_dir", translate("Config file directory"))
 user=s:option(ListValue, "user", translate("Run daemon as user"))
 local p_user
-for _, p_user in luci.util.vspairs(luci.util.split(luci.sys.exec("cat /etc/passwd | cut -f 1 -d :"))) do
+for _, p_user in luci.util.vspairs(luci.util.split(luci.util.exec("cat /etc/passwd | cut -f 1 -d :"))) do
 	user:value(p_user)
 end
 cache_size_mb=s:option(Value, "cache_size_mb", translate("Cache size in MB"))
