@@ -18,7 +18,7 @@ require("luci.model.ipkg")
 
 local uci = require "luci.model.uci".cursor()
 local trport = uci:get_first("transmission", "transmission", "rpc_port") or 9091
-local running = (luci.util.call("pidof transmission-daemon > /dev/null") == 0)
+local running = (luci.sys.call("pidof transmission-daemon > /dev/null") == 0)
 local webinstalled = luci.model.ipkg.installed("transmission-web") 
 local button = ""
 if running and webinstalled then

@@ -12,7 +12,7 @@ You may obtain a copy of the License at
 ]]--
 
 m = Map("telephony", translate("VoIP"))
-m.on_after_commit = function() luci.util.call("/etc/init.d/telephony reload") end
+m.on_after_commit = function() luci.sys.call("/etc/init.d/telephony reload") end
 
 s = m:section(TypedSection, "contact", translate("Contact"), translate("Here You can specify the SIP contacts that you want to use."))
 s.anonymous = true

@@ -40,8 +40,8 @@ m = Map (modulename, translate("User Accounts"),
 
 -- Recreate the config, and restart services after changes are commited to the configuration.
 function m.on_after_commit(self)
-        luci.util.call("/etc/init.d/pbx-" .. server .. " restart 1\>/dev/null 2\>/dev/null")
-        luci.util.call("/etc/init.d/"     .. server .. " restart 1\>/dev/null 2\>/dev/null")
+        luci.sys.call("/etc/init.d/pbx-" .. server .. " restart 1\>/dev/null 2\>/dev/null")
+        luci.sys.call("/etc/init.d/"     .. server .. " restart 1\>/dev/null 2\>/dev/null")
 end
 
 externhost = m.uci:get(modulenameadvanced, "advanced", "externhost")

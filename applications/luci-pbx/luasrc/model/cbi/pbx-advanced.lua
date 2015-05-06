@@ -218,9 +218,9 @@ function m.on_after_commit(self)
                 delete_qos_rules()
         end
 
-        luci.util.call("/etc/init.d/pbx-" .. server .. " restart 1\>/dev/null 2\>/dev/null")
-        luci.util.call("/etc/init.d/"     .. server .. " restart 1\>/dev/null 2\>/dev/null")
-        luci.util.call("/etc/init.d/firewall             restart 1\>/dev/null 2\>/dev/null")
+        luci.sys.call("/etc/init.d/pbx-" .. server .. " restart 1\>/dev/null 2\>/dev/null")
+        luci.sys.call("/etc/init.d/"     .. server .. " restart 1\>/dev/null 2\>/dev/null")
+        luci.sys.call("/etc/init.d/firewall             restart 1\>/dev/null 2\>/dev/null")
 end
 
 -----------------------------------------------------------------------------

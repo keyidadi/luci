@@ -53,8 +53,8 @@ function m.on_after_commit(self)
                  end)
    if commit == true then  m.uci:commit(modulename) end
    
-   luci.util.call("/etc/init.d/pbx-" .. server .. " restart 1\>/dev/null 2\>/dev/null")
-   luci.util.call("/etc/init.d/asterisk             restart 1\>/dev/null 2\>/dev/null")
+   luci.sys.call("/etc/init.d/pbx-" .. server .. " restart 1\>/dev/null 2\>/dev/null")
+   luci.sys.call("/etc/init.d/asterisk             restart 1\>/dev/null 2\>/dev/null")
 end
 
 -----------------------------------------------------------------------------

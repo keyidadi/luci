@@ -233,7 +233,7 @@ function wifi_delete(network)
 					ntm:commit("network")
 				end
 			end
-			luci.util.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
+			luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		end
 	end
 
@@ -326,7 +326,7 @@ function iface_reconnect(iface)
 	local netmd = require "luci.model.network".init()
 	local net = netmd:get_network(iface)
 	if net then
-		luci.util.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % iface)
+		luci.sys.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % iface)
 		luci.http.status(200, "Reconnected")
 		return
 	end
@@ -338,7 +338,7 @@ function iface_shutdown(iface)
 	local netmd = require "luci.model.network".init()
 	local net = netmd:get_network(iface)
 	if net then
-		luci.util.call("env -i /sbin/ifdown %q >/dev/null 2>/dev/null" % iface)
+		luci.sys.call("env -i /sbin/ifdown %q >/dev/null 2>/dev/null" % iface)
 		luci.http.status(200, "Shutdown")
 		return
 	end
@@ -350,7 +350,7 @@ function iface_delete(iface)
 	local netmd = require "luci.model.network".init()
 	local net = netmd:del_network(iface)
 	if net then
-		luci.util.call("env -i /sbin/ifdown %q >/dev/null 2>/dev/null" % iface)
+		luci.sys.call("env -i /sbin/ifdown %q >/dev/null 2>/dev/null" % iface)
 		luci.http.redirect(luci.dispatcher.build_url("admin/network/network"))
 		netmd:commit("network")
 		netmd:commit("wireless")
@@ -387,7 +387,7 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 		net:set("disabled", shutdown and 1 or nil)
 		netmd:commit("wireless")
 
-		luci.util.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
+		luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		luci.http.status(200, shutdown and "Shutdown" or "Reconnected")
 
 		return

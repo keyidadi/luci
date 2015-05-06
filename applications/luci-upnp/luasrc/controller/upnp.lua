@@ -68,12 +68,12 @@ function act_delete(num)
 	local uci = luci.model.uci.cursor()
 
 	if idx and idx > 0 then
-		luci.util.call("iptables -t filter -D MINIUPNPD %d 2>/dev/null" % idx)
-		luci.util.call("iptables -t nat -D MINIUPNPD %d 2>/dev/null" % idx)
+		luci.sys.call("iptables -t filter -D MINIUPNPD %d 2>/dev/null" % idx)
+		luci.sys.call("iptables -t nat -D MINIUPNPD %d 2>/dev/null" % idx)
 
 		local lease_file = uci:get("upnpd", "config", "upnp_lease_file")
 		if lease_file and nixio.fs.access(lease_file) then
-			luci.util.call("sed -i -e '%dd' %q" %{ idx, lease_file })
+			luci.sys.call("sed -i -e '%dd' %q" %{ idx, lease_file })
 		end
 
 		luci.http.status(200, "OK")
