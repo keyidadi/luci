@@ -48,16 +48,16 @@ module "luci.sys"
 -- @name		call
 -- @param 		...		Command to call
 -- @return		Error code of the command
--- function call(...)
---	return os.execute(...) / 256
--- end
+function call(...)
+	return os.execute(...) / 256
+end
 
 --- Execute a given shell command and capture its standard output
 -- @class		function
 -- @name		exec
 -- @param command	Command to call
 -- @return			String containg the return the output of the command
--- exec = luci.util.exec
+exec = luci.util.exec
 
 --- Retrieve information about currently mounted file systems.
 -- @return 	Table containing mount information
@@ -1005,5 +1005,5 @@ end
 
 function upgrade(keep, image_tmp)
 	local keep = keep and "" or "-n"
-	luci.util.exec("killall dropbear uhttpd; sleep 1; /sbin/sysupgrade %s %q; reboot -f" %{ keep, image_tmp })
+	luci.util.exec("/sbin/sysupgrade %s %q; reboot -f" %{ keep, image_tmp })
 end	
