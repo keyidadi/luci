@@ -15,13 +15,21 @@ $Id$
 
 local sys   = require "luci.sys"
 
-module "luci.jsonrpcbind.stats"
+module "luci.jsonrpcbind.sys"
 _M, _PACKAGE, _NAME = nil, nil, nil
 
-function getiwlist(...)
-	return sys.wifi.getiwinfo_item(..., "assoclist")
-end
+wifi = {}
+wifi.getiwinfo_rpc = sys.wifi.getiwinfo_rpc
 
-arp = sys.net.arptable
+upgrade = sys.upgrade
 
-sysinfo = sys.sysinfo
+halt = sys.halt
+
+reboot = sys.reboot
+
+refactory = sys.refactory
+
+user = {}
+user.setpasswd = sys.user.setpasswd
+
+uptime = sys.uptime

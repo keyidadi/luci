@@ -158,7 +158,7 @@ function rpc_fs()
 end
 
 function rpc_sys()
-	local sys     = require "luci.sys"
+	local sys     = require "luci.jsonrpcbind.sys"
 	local jsonrpc = require "luci.jsonrpc"
 	local http    = require "luci.http"
 	local ltn12   = require "luci.ltn12"
