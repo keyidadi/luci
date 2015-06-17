@@ -29,6 +29,10 @@ arp = sys.net.arptable
 
 -- sysinfo = sys.sysinfo
 
+function version()
+    return ""
+    
+
 function mode()
     local ntm = require "luci.model.network".init()
     local fwm = require "luci.model.firewall".init()
@@ -46,18 +50,18 @@ function mode()
                 if proto and proto:is_bridge() then
                     for _,ifc in ipairs(proto:get_interfaces()) do
                         wan[#wan+1] = ifc
-                        if ifc:type() == "ethernet" then
-                            mflag[3] = 1
-                        elseif ifc:type() == "wifi" then
+                        if ifc:type() == "wifi" then
                             mflag[1] = 1
+                        else
+                            mflag[3] = 1
                         end
                     end
                 elseif proto then
                     wan[#wan+1] = proto:get_interface()
-                    if proto:get_interface():type() == "ethernet" then
-                        mflag[3] = 1
-                    elseif proto:get_interface():type() == "wifi" then
+                    if proto:get_interface():type() == "wifi" then
                         mflag[1] = 1
+                    else
+                        mflag[3] = 1
                     end
                 end
             end
@@ -68,18 +72,18 @@ function mode()
     if proto:is_bridge() then
         for _,ifc in pairs(proto:get_interfaces()) do
             lan[#lan+1] = ifc
-            if ifc:type() == "ethernet" then
-                mflag[4] = 1
-            elseif ifc:type() == "wifi" then
+            if ifc:type() == "wifi" then
                 mflag[2] = 1
+            else
+                mflag[4] = 1
             end
         end
     else
         lan[#lan+1] = proto:get_interface()
-        if ifc:type() == "ethernet" then
-            mflag[4] = 1
-        elseif ifc:type() == "wifi" then
+        if ifc:type() == "wifi" then
             mflag[2] = 1
+        else
+            mflag[4] = 1
         end
     end
 
@@ -105,6 +109,26 @@ function mode()
             ret["mode"] = mode_tab[flag+1]
         end
     end
+
+    if #wan > 0 then
+        local proto = wan[1]:get_network()
+        wan = {}
+        wan["name"] = proto:name()
+        wan["proto"] = proto:proto()
+        
+        if wan["proto"] == "pppoe" then
+            wan["username"] = proto:get("username")
+            wan["password"] = proto:get("password")
+        end
+        
+        wan["ipaddr"] = proto:ipaddr() or ""
+        wan["netmask"] = proto:netmask() or ""
+        wan["gwaddr"] = proto:gwaddr() or ""
+        wan["dnsaddrs"] = proto:dnsaddrs() or ""
+
+        ret["wan"] = wan
+    end
+
     return ret
 end
 
