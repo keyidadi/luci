@@ -17,6 +17,7 @@ local ipairs,pairs,type,print,table = ipairs,pairs,type,print,table
 local require = require
 
 local sys   = require "luci.sys"
+local fs     = require "nixio.fs"
 
 module "luci.jsonrpcbind.stats"
 _M, _PACKAGE, _NAME = nil, nil, nil
@@ -30,8 +31,24 @@ arp = sys.net.arptable
 -- sysinfo = sys.sysinfo
 
 function version()
-    return ""
-    
+    local sw_info = fs.readfile("/etc/openwrt_release")
+    local hw_info = fs.readfile("/etc/device_info")
+
+    local sw = {}
+    sw.id = sw_info:match("DISTRIB_ID=\"([%.%s%w]*)\"")
+    sw.release = sw_info:match("DISTRIB_RELEASE=\"([%.%s%w]*)\"")
+    sw.revision = sw_info:match("DISTRIB_REVISION=\"([%.%s%w]*)\"")
+
+    local hw = {}
+    hw.manufacturer = hw_info:match("DEVICE_MANUFACTURER=\"([%.%s%w]*)\"")
+    hw.product = hw_info:match("DEVICE_PRODUCT=\"([%.%s%w]*)\"")
+    hw.revision = hw_info:match("DEVICE_REVISION=\"([%.%s%w]*)\"")
+
+    local ret = {}
+    ret["sw"] = sw
+    ret["hw"] = hw
+    return ret
+end
 
 function mode()
     local ntm = require "luci.model.network".init()
