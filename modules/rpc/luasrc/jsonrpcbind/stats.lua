@@ -124,12 +124,13 @@ function mode()
                     "mix",                  -- 7
                     "lan-only",             -- 8
                     "client",               -- 9
-                    "ap"                    -- 10
+                    "ap",                   -- 10
+                    "bridge"                -- 11
                 }
 
     if ret["mode"] == nil then
         local flag = mflag[1]+mflag[2]*2+mflag[3]*4+mflag[4]*8
-        if flag > 10 then 
+        if flag > 11 then 
             ret["mode"] = "mix"
         elseif mode_tab[flag] then
             ret["mode"] = mode_tab[flag+1]
