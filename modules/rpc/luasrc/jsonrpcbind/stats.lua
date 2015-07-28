@@ -26,7 +26,16 @@ function getiwlist(...)
     return sys.wifi.getiwinfo_item(..., "assoclist")
 end
 
-arp = sys.net.arptable
+function arp()                                                     
+    local arplist = {}                                                 
+    local function callback(x)                                     
+        if x["Flags"] ~= "0x0" then                                
+            arplist[#arplist+1] = x                                        
+        end                                                        
+    end                                                            
+    sys.net.arptable(callback)                                     
+    return arplist                                                     
+end 
 
 -- sysinfo = sys.sysinfo
 
@@ -35,14 +44,14 @@ function version()
     local hw_info = fs.readfile("/etc/device_info")
 
     local sw = {}
-    sw.id = sw_info:match("DISTRIB_ID=\"([%.%s%w]*)\"")
-    sw.release = sw_info:match("DISTRIB_RELEASE=\"([%.%s%w]*)\"")
-    sw.revision = sw_info:match("DISTRIB_REVISION=\"([%.%s%w]*)\"")
+    sw.id = sw_info:match("DISTRIB_ID=\"(.-)\"")
+    sw.release = sw_info:match("DISTRIB_RELEASE=\"(.-)\"")
+    sw.revision = sw_info:match("DISTRIB_REVISION=\"(.-)\"")
 
     local hw = {}
-    hw.manufacturer = hw_info:match("DEVICE_MANUFACTURER=\"([%.%s%w]*)\"")
-    hw.product = hw_info:match("DEVICE_PRODUCT=\"([%.%s%w]*)\"")
-    hw.revision = hw_info:match("DEVICE_REVISION=\"([%.%s%w]*)\"")
+    hw.manufacturer = hw_info:match("DEVICE_MANUFACTURER=\"(.-)\"")
+    hw.product = hw_info:match("DEVICE_PRODUCT=\"(.-)\"")
+    hw.revision = hw_info:match("DEVICE_REVISION=\"(.-)\"")
 
     local ret = {}
     ret["sw"] = sw
