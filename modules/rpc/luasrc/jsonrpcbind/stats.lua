@@ -144,7 +144,7 @@ function mode()
         
         if wan["proto"] == "pppoe" then
             wan["username"] = proto:get("username")
-            wan["password"] = proto:get("password")
+--            wan["password"] = proto:get("password")
         end
         
         wan["ipaddr"] = proto:ipaddr() or ""
