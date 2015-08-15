@@ -22,21 +22,42 @@ local fs     = require "nixio.fs"
 module "luci.jsonrpcbind.stats"
 _M, _PACKAGE, _NAME = nil, nil, nil
 
-function getiwlist(...)
+function assoclist(...)
     return sys.wifi.getiwinfo_item(..., "assoclist")
 end
 
-function arp()                                                     
-    local arplist = {}                                                 
-    local function callback(x)                                     
+function scanlist(...)
+    return sys.wifi.getiwinfo_item(..., "scanlist")
+end
+
+function arplist()                                                     
+    local arp = {}
+    local ret = {}                                           
+    local function arp_callback(x)                                     
         if x["Flags"] ~= "0x0" then                                
-            arplist[#arplist+1] = x                                        
+            arp[#arp+1] = x                                        
         end                                                        
-    end                                                            
-    sys.net.arptable(callback)                                     
-    return arplist                                                     
+    end
+
+    local function hints_callback(mac, name)
+        for k, v in pairs(arp) do
+            if mac:lower() == v["HW address"] then
+                ret[#ret+1] = v
+                if name ~= v["IP address"] then
+                    v["Host Name"] = name
+                end
+            end
+        end
+    end
+
+    sys.net.arptable(arp_callback)                                    
+    sys.net.mac_hints(hints_callback)
+    return ret                                                    
 end 
 
+function arpflush()
+    return sys.call("ip neigh flush all")
+end
 -- sysinfo = sys.sysinfo
 
 function version()
@@ -66,6 +87,7 @@ function mode()
 
     local wan = {}
     local lan = {}
+    local wifi = {}
     local mflag = {0,0,0,0} -- wwan 1, wlan 2, ewan 4, elan 8
 
     -- read wan and lan from firewall zone 
@@ -155,6 +177,15 @@ function mode()
 
         ret["wan"] = wan
     end
+
+    for k, v in ipairs(lan) do            
+        if v["wif"] then
+            wifi["ssid"] = v["wif"]:ssid()
+            wifi["encryption"] = v["wif"]["iwdata"]["encryption"]
+            wifi["hidden"] = v["wif"]["iwdata"]["hidden"]
+            ret["wifi"] = wifi
+        end
+    end  
 
     return ret
 end

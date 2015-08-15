@@ -71,11 +71,7 @@ function reply(jsonrpc, id, res, err)
 	-- 1.0 compatibility
 	if jsonrpc ~= "2.0" then
 		jsonrpc = nil
-		if type(res) == "table" then
-			res = luci.json.encode(res)
-		else
-			res = res or luci.json.null
-		end
+		res = res or luci.json.null
 		err = err or luci.json.null
 	end
 	

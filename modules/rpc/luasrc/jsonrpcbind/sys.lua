@@ -18,9 +18,6 @@ local sys   = require "luci.sys"
 module "luci.jsonrpcbind.sys"
 _M, _PACKAGE, _NAME = nil, nil, nil
 
-wifi = {}
-wifi.getiwinfo_rpc = sys.wifi.getiwinfo_rpc
-
 upgrade = sys.upgrade
 
 halt = sys.halt
