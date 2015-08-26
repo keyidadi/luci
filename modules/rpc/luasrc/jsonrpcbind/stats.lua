@@ -53,11 +53,8 @@ function arplist()
     sys.net.arptable(arp_callback)                                    
     sys.net.mac_hints(hints_callback)
     return ret                                                    
-end 
-
-function arpflush()
-    return sys.call("ip neigh flush all")
 end
+
 -- sysinfo = sys.sysinfo
 
 function version()
@@ -66,11 +63,10 @@ function version()
 
     local sw = {}
     sw.id = sw_info:match("DISTRIB_ID=\"(.-)\"")
-    sw.release = sw_info:match("DISTRIB_RELEASE=\"(.-)\"")
-    sw.revision = sw_info:match("DISTRIB_REVISION=\"(.-)\"")
+    sw.revision = sw_info:match("DISTRIB_RELEASE=\"(.-)\"") .. "." .. sw_info:match("DISTRIB_REVISION=\"(.-)\"")
+
 
     local hw = {}
-    hw.manufacturer = hw_info:match("DEVICE_MANUFACTURER=\"(.-)\"")
     hw.product = hw_info:match("DEVICE_PRODUCT=\"(.-)\"")
     hw.revision = hw_info:match("DEVICE_REVISION=\"(.-)\"")
 
@@ -183,6 +179,7 @@ function mode()
             wifi["ssid"] = v["wif"]:ssid()
             wifi["encryption"] = v["wif"]["iwdata"]["encryption"]
             wifi["hidden"] = v["wif"]["iwdata"]["hidden"]
+            wifi["channel"] = v["wif"]:channel()
             ret["wifi"] = wifi
         end
     end  

@@ -809,7 +809,7 @@ function user.setpasswd(username, password)
 	end
 
 	return os.execute(
-		"(echo '" .. password .. "'; sleep 1; echo '" .. password .. "') | " ..
+		"(echo '" .. password .. "'; sleep 2; echo '" .. password .. "') | " ..
 		"passwd '" .. username .. "' >/dev/null 2>&1"
 	)
 end
