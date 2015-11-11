@@ -289,7 +289,7 @@ function action_flashops()
 			luci.template.render("admin_system/applyreboot", {
 				title = luci.i18n.translate("Flashing..."),
 				msg   = luci.i18n.translate("The system is flashing now.<br /> DO NOT POWER OFF THE DEVICE!<br /> Wait a few minutes before you try to reconnect. It might be necessary to renew the address of your computer to reach the device again, depending on your settings."),
-				addr  = (#keep > 0) and "192.168.1.1" or nil
+				addr  = (#keep > 0) and "172.16.1.1" or nil
 			})
 			fork_exec("killall dropbear uhttpd; sleep 1; /sbin/sysupgrade %s %q" %{ keep, image_tmp })
 		end
@@ -300,7 +300,7 @@ function action_flashops()
 		luci.template.render("admin_system/applyreboot", {
 			title = luci.i18n.translate("Erasing..."),
 			msg   = luci.i18n.translate("The system is erasing the configuration partition now and will reboot itself when finished."),
-			addr  = "192.168.1.1"
+			addr  = "172.16.1.1"
 		})
 		fork_exec("killall dropbear uhttpd; sleep 1; mtd -r erase rootfs_data")
 	else

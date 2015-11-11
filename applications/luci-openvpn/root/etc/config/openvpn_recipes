@@ -73,7 +73,7 @@ config openvpn_recipe server_tap_bridge
 	option _description		"Server configuration for an ethernet bridge VPN"
 	option _role			"server"
 	option dev			"tap"
-	option server_bridge		"192.168.1.1 255.255.255.0 192.168.1.128 192.168.1.254"
+	option server_bridge		"172.16.1.1 255.255.255.0 172.16.1.128 172.16.1.254"
 	option ca			"ca.crt"
 	option cert			"server.crt"
 	option key 			"server.key"

@@ -29,7 +29,7 @@ local basicParams = {
 
 	{ Value,"ifconfig","10.200.200.3 10.200.200.1", translate("Set tun/tap adapter parameters") },
 	{ Value,"server","10.200.200.0 255.255.255.0", translate("Configure server mode") },
-	{ Value,"server_bridge","192.168.1.1 255.255.255.0 192.168.1.128 192.168.1.254", translate("Configure server bridge") },
+	{ Value,"server_bridge","172.16.1.1 255.255.255.0 172.16.1.128 172.16.1.254", translate("Configure server bridge") },
 	{ Flag,"nobind",0, translate("Do not bind to local address and port") },
 
 	{ Flag,"comp_lzo",0, translate("Use fast LZO compression") },

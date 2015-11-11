@@ -108,7 +108,7 @@ o.rmempty = true
 
 o = s:taboption("advanced", Value, "presentation_url", translate("Presentation URL:"))
 o.rmempty = true
-o.placeholder = "http://192.168.1.1/"
+o.placeholder = "http://172.16.1.1/"
 
 o = s:taboption("advanced", Value, "notify_interval", translate("Notify interval:"),
 	translate("Notify interval in seconds."))
