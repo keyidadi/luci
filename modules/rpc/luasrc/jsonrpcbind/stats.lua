@@ -18,6 +18,8 @@ local require = require
 
 local sys   = require "luci.sys"
 local fs     = require "nixio.fs"
+local uci = require "luci.model.uci".cursor()
+local mounts = luci.sys.mounts()
 
 module "luci.jsonrpcbind.stats"
 _M, _PACKAGE, _NAME = nil, nil, nil
@@ -217,4 +219,25 @@ function print_r(data, depth)
         return all
     end
     return tableprint(data,0)
+end
+
+function disks()
+    local disks = {}                            
+    uci.foreach("samba", "sambashare", function(s)      
+        for k,v in ipairs(mounts) do
+            if v.mountpoint == s.path then                 
+                used = v.used                           
+                available = v.available
+                percent = v.percent
+            end                       
+        end
+        disks[#disks+1] = {
+            name=s.name,
+            path=s.path,
+            used=used,                                         
+            available=available,
+            percent=percent
+        }                               
+    end);                    
+    return disks                         
 end
