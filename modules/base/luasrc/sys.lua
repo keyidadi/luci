@@ -986,9 +986,15 @@ function wifi.getiwinfo_rpc(ifname)
         return gen_table(iwinfo[t], ifname)
 end
 
-function wifi.getiwinfo_item(ifname, item)
-        local iwinfo = wifi.getiwinfo(ifname)
-        return iwinfo[item]
+function wifi.getiwinfo_item(ifname, item)        
+        local stat, iwinfo = pcall(require, "iwinfo")
+        local iftype = stat and iwinfo.type(ifname) or nil         
+                                                                 
+        if iftype ~= nil then                                           
+                return iwinfo[iftype][item](ifname)                
+        else                                  
+                return "No such wireless interface"
+        end                                        
 end
 
 function md5sum(image_tmp)

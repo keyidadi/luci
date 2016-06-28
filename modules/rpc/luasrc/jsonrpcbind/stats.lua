@@ -1,16 +1,8 @@
 --[[
-LuCI - Lua Configuration Interface
+LuCI RPC for AmazeBee 
 
-Copyright 2008 Steven Barth <steven@midlink.org>
-Copyright 2008 Jo-Philipp Wich <xm@leipzig.freifunk.net>
+Copyright 2016 Asura Liu <keyidadi@gmail.com>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-$Id$
 ]]--
 
 local ipairs,pairs,type,print,table = ipairs,pairs,type,print,table
@@ -24,12 +16,38 @@ local mounts = luci.sys.mounts()
 module "luci.jsonrpcbind.stats"
 _M, _PACKAGE, _NAME = nil, nil, nil
 
+function ssid(...)
+    return sys.wifi.getiwinfo_item(..., "ssid")
+end
+
 function assoclist(...)
     return sys.wifi.getiwinfo_item(..., "assoclist")
 end
 
+--[[
+---Original scanlist
 function scanlist(...)
     return sys.wifi.getiwinfo_item(..., "scanlist")
+end
+]]--
+function scanlist(...)
+    local list = sys.wifi.getiwinfo_item(..., "scanlist")
+
+    uci:foreach("sta", "sta-profile", function ( s )
+        for i, v in ipairs(list) do
+            if v.ssid == s.ssid then
+                if s.state ~= 'disconnected' then
+                    list[i].state = s.state
+                elseif s.last_connected == '0' then
+                    list[i].state = 'failed'
+                else
+                    list[i].state = 'saved'
+                end
+                return true
+            end
+        end
+    end)
+    return list
 end
 
 function arplist()                                                     
