@@ -36,10 +36,14 @@ function scanlist(...)
     uci:foreach("sta", "sta-profile", function ( s )
         for i, v in ipairs(list) do
             if v.ssid == s.ssid then
-                if s.state ~= 'disconnected' then
-                    list[i].state = s.state
-                elseif s.last_connected == '0' then
-                    list[i].state = 'failed'
+                if s.state then
+                    if s.state ~= 'disconnected' then
+                        list[i].state = s.state
+                    elseif s.last_connected == '0' then
+                        list[i].state = 'failed'
+                    else
+                        list[i].state = 'saved'
+                    end
                 else
                     list[i].state = 'saved'
                 end

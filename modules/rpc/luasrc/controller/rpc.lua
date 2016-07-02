@@ -45,7 +45,6 @@ function index()
 	entry({"rpc", "fs"}, call("rpc_fs"))
 	entry({"rpc", "sys"}, call("rpc_sys"))
 	entry({"rpc", "stats"}, call("rpc_stats")).sysauth = false
-	entry({"rpc", "br"}, call("rpc_br"))
 	entry({"rpc", "ipkg"}, call("rpc_ipkg"))
 	entry({"rpc", "auth"}, call("rpc_auth")).sysauth = false
 end
@@ -176,16 +175,6 @@ function rpc_stats()
 
 	http.prepare_content("application/json")
 	ltn12.pump.all(jsonrpc.handle(stats, http.source()), http.write)
-end
-
-function rpc_br()
-	local br  = require "luci.jsonrpcbind.br"
-	local jsonrpc = require "luci.jsonrpc"
-	local http    = require "luci.http"
-	local ltn12   = require "luci.ltn12"
-
-	http.prepare_content("application/json")
-	ltn12.pump.all(jsonrpc.handle(br, http.source()), http.write)
 end
 
 function rpc_ipkg()
